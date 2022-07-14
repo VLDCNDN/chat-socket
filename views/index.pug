@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  nav(class="w-full bg-white p-4 shadow max-h-56")
+    div
+      label(class="font-bold text-xl") Test
+
+
+  script(src="/socket.io/socket.io.js")
+  script(type="text/javascript").
+    var socket = io();
+    console.log("Test")
