@@ -4,7 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var http = require('http');
+var chat = require('./chat');
 const { Server } = require('socket.io');
+var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 
@@ -13,10 +15,16 @@ var app = express();
 // create http server
 const server = http.createServer(app);
 
-const io = new Server(server);
+var io = new Server(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST']
+  }
+});
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
+chat(io);
+
+app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());
