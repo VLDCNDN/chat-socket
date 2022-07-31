@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 
+import UserListComponent from "./components/UserList";
+
 function App() {
   const [socket, setSocket] = useState(null);
 
@@ -10,16 +12,7 @@ function App() {
     return () => newSocket.close();
   }, [setSocket]);
 
-  function usersList() {
-    return ["Noel", "Marvin", "Sandra", "Giny"].map((user) => 
-      <li class="text-white hover:bg-neutral-800 first:pt-0 last:pb-0">
-        <a href="/" class="flex justify-between items-center w-full p-4">
-          <p>{user}</p>
-          <div class="h-4 w-4 my-1 border-2 border-white rounded-full bg-green-400"></div>
-        </a>
-      </li>
-    );
-  }
+  
 
   return (
     <div className="App">
@@ -31,9 +24,7 @@ function App() {
             All Messages
           </p>
           <div class="w-full">
-            <ul class="divide-y divide-neutral-800">
-              { usersList() }
-            </ul>
+            <UserListComponent usersData={['Marvin', 'Cristy', 'Bob','Windy']} />
           </div>
         </div>
         <div class="grow h-full"></div>
