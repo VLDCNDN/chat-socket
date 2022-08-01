@@ -6,10 +6,10 @@ class UserList extends Component {
     const { usersData } = this.props;
 
     function usersList() {
-      return usersData.map((user) => <UserComponent userName={user} />);
+      return usersData.map((user) => <UserComponent userName={user} key={user}/>);
     }
 
-    return <ul class="divide-y divide-neutral-800">{usersList()}</ul>;
+    return <ul className="divide-y divide-neutral-800">{usersList()}</ul>;
   }
 }
 
