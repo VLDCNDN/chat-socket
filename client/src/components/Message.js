@@ -3,23 +3,23 @@ const Message = (props) => {
   const { value, time } = message;
   const { userId, userName, isOwner } = user;
 
-  const nameStyle = !isOwner
-    ? "flex flex-row space-x-2"
-    : "flex flex-row-reverse space-x-2 space-x-reverse";
+  const messagePositionStyle = !isOwner
+    ? "flex justify-start"
+    : "flex justify-end";
+
+  const messageStyle = !isOwner
+    ? "relative text-sm text-neutral-200 max-w-xl px-4 py-2 bg-neutral-800 rounded-r-md rounded-bl-md shadow"
+    : "relative text-sm text-neutral-800 max-w-xl px-4 py-2 bg-neutral-200 rounded-l-md rounded-br-md shadow";
 
   return (
-    <div className="p-2 justify-end">
-      <div className="w-full flex flex-col">
-        <div className={nameStyle}>
-          <p className="text-neutral-200 font-bold text-sm">{userName}</p>
-          <p className="text-neutral-500 font-light text-sm">{time}</p>
-        </div>
-        <div clasName="flex flex-col">
-          <p className="text-sm w-fit text-white bg-neutral-800 p-2 rounded-r-md rounded-bl-md">
-            {value}
-          </p>
-        </div>
-      </div>
+    <div className="relative w-full p-4 overflow-y-auto">
+      <ul className="space-y-2">
+        <li className={messagePositionStyle}>
+          <div className={messageStyle}>
+            <span className="block">{value}</span>
+          </div>
+        </li>
+      </ul>
     </div>
   );
 };
