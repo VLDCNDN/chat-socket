@@ -4,6 +4,8 @@ import io from "socket.io-client";
 import UserListComponent from "./components/UserList";
 import Messages from "./Messages";
 
+import "./App.css";
+
 function App() {
   const [socket, setSocket] = useState(null);
 
