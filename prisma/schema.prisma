@@ -16,6 +16,7 @@ model User {
   updatedAt     DateTime @updatedAt
   username      String @db.VarChar(255) @unique
   password      String @db.Text
+  salt          String? @db.VarChar(10)
   name          String @db.VarChar(255)
   socketId      String? @db.VarChar(255)
   access_token  String? @db.Text

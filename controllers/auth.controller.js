@@ -14,13 +14,35 @@ exports.signup = async (req, res) => {
     res.send({error: error.details[0].message});
     return;
   }
-  
-  delete value.repeat_password;
 
   const resp = await User.create(value);
-  if(resp) {
-    delete resp.data.password
+
+  if(resp.error !== "") {
+    res.status(400).send(resp);
+    return;
   }
 
-  res.send(resp);
+  res.status(202).send(resp);
 };
+
+exports.signin = async (req, res) => {
+  const schema = Joi.object({
+    username: Joi.required(),
+    password: Joi.required(),
+  });
+
+  const { error, value } = schema.validate(req.body);
+  if (error) {
+    res.send({error: error.details[0].message});
+    return;
+  }
+
+  const resp = await User.getUser(value);
+
+  if(resp.error !== "") {
+    res.status(401).send(resp);
+    return;
+  }
+
+  res.status(200).send(resp);
+}
