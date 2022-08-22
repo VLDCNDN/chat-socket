@@ -1,8 +1,11 @@
 var express = require('express');
+const auth = require('../middleware/auth');
+
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', auth, function(req, res, next) {
+  console.log(req.user);
   res.send({ title: 'Express' });
 });
 
