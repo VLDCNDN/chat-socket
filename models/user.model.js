@@ -1,12 +1,12 @@
 const { PrismaClient, Prisma } = require("@prisma/client");
 const bcrypt = require("bcryptjs");
-const jwt = require('../utils/request_token.util');
+const jwt = require("../utils/request_token.util");
 
 const prisma = new PrismaClient();
 
 const { exclude } = require("../utils/prisma.util");
 
-const hiddenFields = ["id","password", "salt", "createdAt", "updatedAt"];
+const hiddenFields = ["id", "password", "salt", "createdAt", "updatedAt"];
 
 exports.create = async (data) => {
   const toReturn = {
@@ -59,15 +59,18 @@ exports.getUser = async (data) => {
 
     if (user) {
       const compare = bcrypt.compareSync(data.password, user.password);
+      console.log(`compare: ${compare}`);
       if (compare) {
         const userData = exclude(user, hiddenFields);
         const token = jwt.generate(userData);
-        user.token = token;
-
+        userData.token = token;
+        console.log(`user: ${userData}`);
         toReturn.data = userData;
       } else {
         toReturn.error = "Error Logging in";
       }
+    } else {
+      toReturn.error = "No user found";
     }
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {

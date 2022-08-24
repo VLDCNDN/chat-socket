@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { Navigate } from 'react-router-dom';
 
 class Signin extends Component {
   
@@ -8,8 +9,6 @@ class Signin extends Component {
       user: {
         username: '',
         password: '',
-        repeat_password: '',
-        name: '',
       }
     }
 
@@ -32,15 +31,21 @@ class Signin extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
-    const registerUser = this.state.user;
-    fetch('/api/auth/signup', {
+    const loginUser = this.state.user;
+    fetch('/api/auth/signin', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(registerUser),
-    }).then((resp) => {
-      console.log(resp);
-      alert("Registered");
+      body: JSON.stringify(loginUser),
+    })
+    .then((resp) => ( resp.json() ))
+    .then((data) => {
+      if(data.error !== "") {
+        alert(data.error);
+        return;
+      }
+
+      window.location = "/chat";
+      return;
     })
   }
 
@@ -49,12 +54,13 @@ class Signin extends Component {
       <>
         <div className="flex flex-col justify-center items-center  bg-neutral-900 h-screen text-neutral-200">
           <div className="">
-            <form>
-              <p>Register</p>
+            <form onSubmit={this.handleSubmit}>
+              <p className="text-xl font-medium">Login</p>
+              <br></br>
               <div className="mb-4">
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  for="username"
+                  className="block text-neutral-400 text-sm font-bold mb-2 uppercase"
+                  htmlFor="username"
                 >
                   Username
                 </label>
@@ -63,29 +69,34 @@ class Signin extends Component {
                   id="username"
                   type="text"
                   placeholder="Username"
+                  name="username"
+                  onChange={this.handleInputChange}
                 />
               </div>
               <div className="mb-6">
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  for="password"
+                  className="block text-neutral-400 text-sm font-bold mb-2 uppercase"
+                  htmlFor="password"
                 >
                   Password
                 </label>
                 <input
-                  className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                   id="password"
                   type="password"
                   placeholder="******************"
+                  name="password"
+                  onChange={this.handleInputChange}
                 />
-                <p className="text-red-500 text-xs italic">
+                {/* <p className="text-red-500 text-xs italic">
                   Please choose a password.
-                </p>
+                </p> */}
               </div>
               <div className="flex items-center justify-between">
+                <div></div>
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type="button"
+                  className="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="submit"
                 >
                   Sign In
                 </button>

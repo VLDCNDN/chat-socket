@@ -1,7 +1,8 @@
-import { Routes, Route, Link} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import SigninPage from "./pages/Signin";
 import SignupPage from "./pages/Signup";
 import ChatPage from "./pages/Chat";
+import Auth from "./Auth";
 
 import "./App.css";
 
@@ -11,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SigninPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/chat" element={Auth(<ChatPage />)} />
       </Routes>
     </div>
   );
